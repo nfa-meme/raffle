@@ -14,13 +14,13 @@ def get_list_of_purchases(file_path: str) -> tuple[List[str], List[str]]:
 
     with open(file_path, "r") as file:
         for line in file:
-            row = line.split(",")
-            order_id = row[0]
-            discount_code = row[12]
+            row = line.strip().split(",")
+            ticket_number = row[0]
+            discount_code = row[1]
 
-            list_of_purchases.append(order_id)
+            list_of_purchases.append(ticket_number)
             if discount_code.upper() == "BKKDAMNHOT":
-                list_of_pudgy_event_purchases.append(order_id)
+                list_of_pudgy_event_purchases.append(ticket_number)
 
     return list_of_purchases, list_of_pudgy_event_purchases
 
@@ -107,19 +107,15 @@ def main():
     if INFURA_PROJECT_ID is None:
         raise ValueError("Please set the INFURA_PROJECT_ID environment variable")
 
-    # BLOCK_NUMBER = getenv("BLOCK_NUMBER", None)
-    # if BLOCK_NUMBER is None:
-    #     raise ValueError("Please set the BLOCK_NUMBER environment variable")
-
-    CSV_FILE = getenv("CSV_FILE", None)
-    if CSV_FILE is None:
-        raise ValueError("Please set the CSV_FILE environment variable")
+    CSV_FILE = getenv("CSV_FILE", "ticket_number.csv")
 
     # Connect to an Ethereum node (e.g., Infura)
     w3 = Web3(Web3.HTTPProvider(f"https://mainnet.infura.io/v3/{INFURA_PROJECT_ID}"))
 
     # Get Block Info
-    latest_block = w3.eth.block_number
+    # Freeze at 19664340 as it is the second block after the campaign ended
+    # The first block (19664339) does not have enough withdrawal for us to determine the winners
+    latest_block = 19664340  # w3.eth.block_number
     block_info = w3.eth.get_block(latest_block)
     withdrawals = block_info["withdrawals"]
 
