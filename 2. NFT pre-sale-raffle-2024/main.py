@@ -27,14 +27,14 @@ def get_eligible_addresses(csv_file: str) -> list:
 
     return eligible_addresses
 
-def get_random_addresses(addresses: list, block_number: int, size: int) -> str:
+def get_random_addresses(addresses: list, block_number: int, size: int) -> list:
     # Seed with a combination of block_number and size
     random.seed(block_number + size)
 
-    # Select a random address deterministically
-    selected_address = random.choice(addresses)
+    # Select two random addresses deterministically
+    selected_addresses = random.sample(addresses, 2)  # Use sample to get two unique addresses
 
-    return selected_address
+    return selected_addresses  # Return a list of selected addresses
 
 def main():
     print("Getting eligible addresses...")
@@ -47,9 +47,9 @@ def main():
     # Let's use size for the seed
     seed = block['size']
 
-    random_address = get_random_addresses(eligible_addresses, DECISION_BLOCK_NUMBER, seed)
+    random_addresses = get_random_addresses(eligible_addresses, DECISION_BLOCK_NUMBER, seed)
 
-    print(f'The winner is {random_address}')
+    print(f'The winners are {random_addresses}')
 
 if __name__ == "__main__":
     main()

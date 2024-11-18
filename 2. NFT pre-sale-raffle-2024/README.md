@@ -1,3 +1,8 @@
+```
+📍 We have decided that we should have 2 prizes instead of 1! So we are pushing the code to raffle 2 winners for this event.
+```
+
+
 # NFA.meme NFT pre-sale raffle 2024
 Welcome to the NFA.meme NFT pre-sale raffle 2024! In this raffle, you have a chance to win Lil Pudgy!
 
